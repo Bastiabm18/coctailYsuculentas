@@ -29,7 +29,7 @@ export default function HeroSuculentas() {
           transition={{ duration: 0.8, delay: 0.2 }}
             className="flex flex-row items-center justify-center"
         >
-            <Image alt='suculentas' src='/suculentas.PNG' height={200} width={200}
+            <Image alt='suculentas' src='/suculentas.png' height={200} width={200}
               loading="eager"
               style={{ width: 'auto', height: 'auto' }}/>
         </motion.div>

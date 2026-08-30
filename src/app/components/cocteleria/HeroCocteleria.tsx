@@ -27,7 +27,9 @@ export default function HeroCocteleria() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="flex flex-row items-center justify-center"
         >
-          <Image alt='coctail' src='/GAMA PASTEL.PNG' height={200} width={200}/>
+          <Image alt='coctail' src='/gama_pastel.PNG' height={200} width={200}
+          loading="eager"
+          style={{ width: 'auto', height: 'auto' }}/>
         </motion.div>
 
         <motion.h1

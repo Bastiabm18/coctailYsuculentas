@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { HiOutlineFire, HiOutlineSparkles, HiArrowRight } from "react-icons/hi2";
+import { HiOutlineFire, HiOutlineSparkles, HiArrowRight, HiOutlineNewspaper } from "react-icons/hi2";
 
 const secciones = [
   {
@@ -18,6 +18,9 @@ const secciones = [
     icon: <HiOutlineSparkles className="text-3xl" />,
     color: "bg-terra/20 text-terra-dark",
   },
+   { nombre: "Noticias", 
+    path: "/dashboard/noticias", 
+    icon: <HiOutlineNewspaper className="text-xl" /> },
 ];
 
 export default function DashboardHome() {

@@ -18,3 +18,23 @@ export interface ProductoForm {
   precio: number;
   estado: boolean;
 }
+
+export interface Noticia {
+  id: string;
+  titulo: string;
+  subtitulo: string | null;
+  contenido: string | null;
+  imagen_url: string | null;
+  estado: boolean;
+  fecha_creacion: string;
+  fecha_actualizacion: string;
+}
+
+export interface NoticiaForm {
+  id?: string;
+  titulo: string;
+  subtitulo: string;
+  contenido: string;
+  imagen_url: string;
+  estado: boolean;
+}

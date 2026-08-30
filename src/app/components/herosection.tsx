@@ -48,7 +48,7 @@ export default function HeroSection() {
                * 
               <GiPieSlice className="text-pastel-red text-7xl md:text-8xl drop-shadow-sm" />
               */}
-              <Image alt='coctail' src='/coctail1.PNG' height={200} width={200}/>
+              <Image alt='coctail' src='/GAMA PASTEL.PNG' height={200} width={200}/>
             </motion.div>
 
             <div className="relative z-10 text-center">
@@ -123,7 +123,7 @@ export default function HeroSection() {
               }}
               transition={{ duration: 0.5 }}
             >
-              <GiCactus className="text-neutral-100 text-7xl md:text-8xl drop-shadow-sm" />
+                <Image alt='suculentas' src='/SUCULENTAS.PNG' height={200} width={200}/>
             </motion.div>
 
             <div className="relative z-10 text-center">

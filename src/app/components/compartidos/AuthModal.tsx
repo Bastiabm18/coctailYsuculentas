@@ -1,18 +1,31 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { HiXMark, HiEye, HiEyeSlash } from "react-icons/hi2";
+import { createClient } from "@/utils/supabase/client";
+import { useAuth } from "@/app/hook/useAuth";
 
 type Vista = "login" | "registro" | "recuperar";
 
-export default function AuthModal() {
+interface AuthModalProps {
+  onCerrar?: () => void;
+}
+
+export default function AuthModal({ onCerrar }: AuthModalProps) {
+  const { userData } = useAuth();
   const [abierto, setAbierto] = useState(true);
   const [vista, setVista] = useState<Vista>("login");
   const [verPassword, setVerPassword] = useState(false);
 
-  const cerrar = () => setAbierto(false);
+  const cerrar = () => {
+    setAbierto(false);
+    onCerrar?.();
+  };
+
+  if (userData) return null;
 
   /* ─── Backdrop ─── */
   return (
@@ -77,10 +90,36 @@ function VistaLogin({
   verPassword: boolean;
   togglePassword: () => void;
 }) {
-  const handleSubmit = (e: React.FormEvent) => {
+  const router = useRouter();
+  const supabase = createClient();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cargando, setCargando] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleLoginEmail = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí irá Supabase signIn
-    cerrar();
+    setCargando(true);
+    setError(null);
+
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      cerrar();
+      router.refresh();
+    }
+    setCargando(false);
+  };
+
+  const handleLoginGoogle = async () => {
+    setError(null);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/auth/callback?next=${window.location.pathname}` },
+    });
+    if (error) setError(error.message);
   };
 
   return (
@@ -97,10 +136,16 @@ function VistaLogin({
         Para una mejor experiencia, regístrate con nosotros
       </p>
 
+      {error && (
+        <p className="mt-4 text-center text-sm text-red-500">{error}</p>
+      )}
+
       {/* Google */}
       <button
         type="button"
-        className="mt-6 flex w-full items-center justify-center gap-3 rounded-xl border border-neutral-200 px-4 py-3 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-50"
+        onClick={handleLoginGoogle}
+        disabled={cargando}
+        className="mt-6 flex w-full items-center justify-center gap-3 rounded-xl border border-neutral-200 px-4 py-3 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-50 disabled:opacity-50"
       >
         <FcGoogle className="text-lg" />
         Continuar con Google
@@ -114,19 +159,25 @@ function VistaLogin({
       </div>
 
       {/* Formulario */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleLoginEmail} className="space-y-4">
         <input
           type="email"
           placeholder="Correo electrónico"
           required
-          className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={cargando}
+          className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10 disabled:opacity-50"
         />
         <div className="relative">
           <input
             type={verPassword ? "text" : "password"}
             placeholder="Contraseña"
             required
-            className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 pr-11 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={cargando}
+            className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 pr-11 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10 disabled:opacity-50"
           />
           <button
             type="button"
@@ -139,11 +190,13 @@ function VistaLogin({
 
         <button
           type="submit"
-          className="w-full rounded-xl bg-pastel-red py-3 text-sm font-semibold text-white transition-all hover:bg-pastel-red-hover hover:shadow-lg hover:shadow-pastel-red/20"
+          disabled={cargando}
+          className="w-full rounded-xl bg-pastel-red py-3 text-sm font-semibold text-white transition-all hover:bg-pastel-red-hover hover:shadow-lg hover:shadow-pastel-red/20 disabled:opacity-50"
         >
-          Entrar
+          {cargando ? "Procesando..." : "Entrar"}
         </button>
         <button
+          type="button"
           onClick={cerrar}
           className="w-full rounded-xl bg-gray-200 py-3 text-sm font-semibold text-white transition-all hover:bg-gray-400 hover:shadow-lg hover:shadow-gray/20"
         >
@@ -185,9 +238,39 @@ function VistaRegistro({
   verPassword: boolean;
   togglePassword: () => void;
 }) {
-  const handleSubmit = (e: React.FormEvent) => {
+  const supabase = createClient();
+  const [nombre, setNombre] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cargando, setCargando] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleRegistroEmail = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí irá Supabase signUp
+    setCargando(true);
+    setError(null);
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { nombre_completo: nombre } },
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      irA("login");
+    }
+    setCargando(false);
+  };
+
+  const handleRegistroGoogle = async () => {
+    setError(null);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/auth/callback?next=${window.location.pathname}` },
+    });
+    if (error) setError(error.message);
   };
 
   return (
@@ -204,10 +287,16 @@ function VistaRegistro({
         Regístrate para ordenar y seguir tus pedidos
       </p>
 
+      {error && (
+        <p className="mt-4 text-center text-sm text-red-500">{error}</p>
+      )}
+
       {/* Google */}
       <button
         type="button"
-        className="mt-6 flex w-full items-center justify-center gap-3 rounded-xl border border-neutral-200 px-4 py-3 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-50"
+        onClick={handleRegistroGoogle}
+        disabled={cargando}
+        className="mt-6 flex w-full items-center justify-center gap-3 rounded-xl border border-neutral-200 px-4 py-3 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-50 disabled:opacity-50"
       >
         <FcGoogle className="text-lg" />
         Registrarse con Google
@@ -221,18 +310,24 @@ function VistaRegistro({
       </div>
 
       {/* Formulario */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleRegistroEmail} className="space-y-4">
         <input
           type="text"
           placeholder="Nombre completo"
           required
-          className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          disabled={cargando}
+          className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10 disabled:opacity-50"
         />
         <input
           type="email"
           placeholder="Correo electrónico"
           required
-          className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={cargando}
+          className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10 disabled:opacity-50"
         />
         <div className="relative">
           <input
@@ -240,7 +335,10 @@ function VistaRegistro({
             placeholder="Contraseña"
             required
             minLength={6}
-            className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 pr-11 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={cargando}
+            className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 pr-11 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10 disabled:opacity-50"
           />
           <button
             type="button"
@@ -253,9 +351,10 @@ function VistaRegistro({
 
         <button
           type="submit"
-          className="w-full rounded-xl bg-pastel-red py-3 text-sm font-semibold text-white transition-all hover:bg-pastel-red-hover hover:shadow-lg hover:shadow-pastel-red/20"
+          disabled={cargando}
+          className="w-full rounded-xl bg-pastel-red py-3 text-sm font-semibold text-white transition-all hover:bg-pastel-red-hover hover:shadow-lg hover:shadow-pastel-red/20 disabled:opacity-50"
         >
-          Crear cuenta
+          {cargando ? "Procesando..." : "Crear cuenta"}
         </button>
       </form>
 
@@ -279,12 +378,27 @@ function VistaRegistro({
    VISTA: RECUPERAR CONTRASEÑA
    ═══════════════════════════════════════ */
 function VistaRecuperar({ irA }: { irA: (v: Vista) => void }) {
+  const supabase = createClient();
+  const [email, setEmail] = useState("");
+  const [cargando, setCargando] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [enviado, setEnviado] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí irá Supabase resetPassword
-    setEnviado(true);
+    setCargando(true);
+    setError(null);
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/callback?next=${window.location.pathname}`,
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setEnviado(true);
+    }
+    setCargando(false);
   };
 
   return (
@@ -297,6 +411,10 @@ function VistaRecuperar({ irA }: { irA: (v: Vista) => void }) {
       <h2 className="text-neutral-800 text-xl font-bold text-center">
         Recuperar contraseña
       </h2>
+
+      {error && (
+        <p className="mt-4 text-center text-sm text-red-500">{error}</p>
+      )}
 
       {enviado ? (
         <div className="mt-6 text-center">
@@ -322,13 +440,17 @@ function VistaRecuperar({ irA }: { irA: (v: Vista) => void }) {
               type="email"
               placeholder="Correo electrónico"
               required
-              className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={cargando}
+              className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-pastel-red/50 focus:ring-2 focus:ring-pastel-red/10 disabled:opacity-50"
             />
             <button
               type="submit"
-              className="w-full rounded-xl bg-pastel-red py-3 text-sm font-semibold text-white transition-all hover:bg-pastel-red-hover hover:shadow-lg hover:shadow-pastel-red/20"
+              disabled={cargando}
+              className="w-full rounded-xl bg-pastel-red py-3 text-sm font-semibold text-white transition-all hover:bg-pastel-red-hover hover:shadow-lg hover:shadow-pastel-red/20 disabled:opacity-50"
             >
-              Enviar enlace
+              {cargando ? "Enviando..." : "Enviar enlace"}
             </button>
           </form>
 

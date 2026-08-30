@@ -2,6 +2,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { GiCactus } from "react-icons/gi";
 
 export default function HeroSuculentas() {
@@ -26,8 +27,9 @@ export default function HeroSuculentas() {
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex flex-row items-center justify-center"
         >
-          <GiCactus className="mx-auto mb-8 text-neutral-100 text-8xl md:text-9xl drop-shadow-lg" />
+            <Image alt='suculentas' src='/SUCULENTAS.PNG' height={200} width={200}/>
         </motion.div>
 
         <motion.h1

@@ -6,20 +6,25 @@ import { useAuth } from "../hook/useAuth";
 import DashboardLayout from "./components/DashboardLayout";
 import DashboardHome from "./components/DashboardHome";
 
-
-const EMAIL_PERMITIDO = "andresbarriosmedina1@gmail.com";
+// 1. Convertimos la variable de entorno en un array separando por comas
+const ADMINS_PERMITIDOS = (process.env.NEXT_PUBLIC_ADMIN_CORREO || "")
+  .split(",")
+  .map((email) => email.trim());
 
 export default function DashboardPage() {
   const router = useRouter();
   const { userData } = useAuth();
 
+  // 2. Verificamos si el email del usuario está incluído en el array
+  const esAdmin = userData?.email ? ADMINS_PERMITIDOS.includes(userData.email) : false;
+
   useEffect(() => {
-    if (userData && userData.email !== EMAIL_PERMITIDO) {
+    if (userData && !esAdmin) {
       router.push("/");
     }
-  }, [userData, router]);
+  }, [userData, esAdmin, router]);
 
-  if (!userData || userData.email !== EMAIL_PERMITIDO) return null;
+  if (!userData || !esAdmin) return null;
 
   return (
     <DashboardLayout>

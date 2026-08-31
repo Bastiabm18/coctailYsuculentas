@@ -45,7 +45,9 @@ export default function ContenedorNoticias({ tienda }: Props) {
   const offset = esMovil ? index * 100 : index * 50;
 
   return (
-    <div className={`relative w-full ${bgFondo}`}>
+    <div className={`relative w-full flex flex-col gap-10 ${bgFondo}`}>
+      <div>
+
       <motion.h2
         className={`text-center ${bgText} text-3xl font-bold tracking-tight md:text-5xl pt-5`}
         initial={{ y: 30, opacity: 0 }}
@@ -53,11 +55,12 @@ export default function ContenedorNoticias({ tienda }: Props) {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.7 }}
         
-      >
+        >
         Noticias
       </motion.h2>
+      </div>
 
-      <div className="overflow-hidden rounded-2xl p-10">
+      <div className="overflow-hidden rounded-2xl pl-5">
         <motion.div
           className="flex gap-4"
           animate={{ x: `-${offset}%` }}

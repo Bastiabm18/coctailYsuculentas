@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { HiPencil, HiTrash, HiEye, HiEyeSlash, HiArrowUpTray } from "react-icons/hi2";
 import type { Producto, ProductoForm } from "@/app/types/productos";
-import { editarSuculenta, eliminarSuculenta, insertarSuculenta, obtenerSuculentas, subirImagen } from "@/app/dashboard/actions/actions";
+import { editarCoctel, eliminarCoctel, insertarCoctel, obtenerCocteles, subirImagen } from "@/app/dashboard/actions/actions";
 
 const formVacio: ProductoForm = {
   nombre: "",
@@ -27,7 +27,7 @@ export default function SuculentasManager() {
   const cargar = async () => {
     setCargando(true);
     try {
-      const data = await obtenerSuculentas();
+      const data = await obtenerCocteles();
       setProductos(data);
     } catch (err: any) {
       setError(err.message);
@@ -69,9 +69,9 @@ export default function SuculentasManager() {
       }
 
       if (editando) {
-        await editarSuculenta({ ...form, imagen_url: imagenUrl });
+        await editarCoctel({ ...form, imagen_url: imagenUrl });
       } else {
-        await insertarSuculenta({ ...form, imagen_url: imagenUrl });
+        await insertarCoctel({ ...form, imagen_url: imagenUrl });
       }
 
       setForm(formVacio);
@@ -106,7 +106,7 @@ export default function SuculentasManager() {
     if (!confirm("¿Eliminar este producto?")) return;
     setError(null);
     try {
-      await eliminarSuculenta(p.id, p.imagen_url || undefined);
+      await eliminarCoctel(p.id, p.imagen_url || undefined);
       await cargar();
     } catch (err: any) {
       setError(err.message);

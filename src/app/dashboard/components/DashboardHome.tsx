@@ -20,7 +20,10 @@ const secciones = [
   },
    { nombre: "Noticias", 
     path: "/dashboard/noticias", 
-    icon: <HiOutlineNewspaper className="text-xl" /> },
+    icon: <HiOutlineNewspaper className="text-xl"
+     />,
+     color: "bg-terra/20 text-terra-dark",
+    },
 ];
 
 export default function DashboardHome() {

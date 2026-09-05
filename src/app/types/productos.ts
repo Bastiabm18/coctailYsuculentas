@@ -38,3 +38,12 @@ export interface NoticiaForm {
   imagen_url: string;
   estado: boolean;
 }
+
+export interface EnvioData {
+  direccion: string;
+  ciudad: string;
+  region: string;
+  telefono: string;
+  lat: number;
+  lng: number;
+}

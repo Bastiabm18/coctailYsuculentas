@@ -25,6 +25,7 @@ export default function DashboardPage() {
   }, [userData, esAdmin, router]);
 
   if (!userData || !esAdmin) return null;
+  
   return (
     <DashboardLayout>
       <SuculentasManager />

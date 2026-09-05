@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { HiXMark, HiMinus, HiPlus, HiTrash, HiShoppingBag } from "react-icons/hi2";
 import { useCart } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
 
 export default function CarroComponent() {
   const {
@@ -15,6 +16,7 @@ export default function CarroComponent() {
     total,
     totalItems,
   } = useCart();
+  const router = useRouter();
 
   const vacio = items.length === 0;
 
@@ -142,7 +144,11 @@ export default function CarroComponent() {
                     ${total.toLocaleString("es-CL")}
                   </span>
                 </div>
-                <button className="w-full rounded-xl bg-pastel-red py-3.5 text-sm font-semibold text-white transition-all hover:bg-pastel-red-hover hover:shadow-lg hover:shadow-pastel-red/20">
+                <button 
+                  onClick={() => {router.push("/pagar") ;
+                                  cerrar();
+                  }}
+                className="w-full rounded-xl bg-pastel-red py-3.5 text-sm font-semibold text-white transition-all hover:bg-pastel-red-hover hover:shadow-lg hover:shadow-pastel-red/20">
                   Ir a pagar
                 </button>
                 <button

@@ -8,7 +8,7 @@ export function useAuth() {
   const router = useRouter();
   const supabase = createClient();
   const [avatar, setAvatar] = useState<string | null>(null);
-  const [userData, setUserData] = useState<{ nombre: string; email: string; avatar: string | null } | null>(null);
+  const [userData, setUserData] = useState<{ id: string; nombre: string; email: string; avatar: string | null } | null>(null);
 
   useEffect(() => {
     const cargar = async () => {
@@ -18,6 +18,7 @@ export function useAuth() {
         const av = meta?.avatar_url || meta?.picture || null;
         setAvatar(av);
         setUserData({
+          id: session.user.id,
           nombre: meta?.nombre_completo || meta?.full_name || meta?.name || "",
           email: session.user.email || "",
           avatar: av,
@@ -33,6 +34,7 @@ export function useAuth() {
         const av = meta?.avatar_url || meta?.picture || null;
         setAvatar(av);
         setUserData({
+          id: session.user.id,
           nombre: meta?.nombre_completo || meta?.full_name || meta?.name || "",
           email: session.user.email || "",
           avatar: av,

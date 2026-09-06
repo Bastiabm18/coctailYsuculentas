@@ -7,6 +7,8 @@ import { createClient } from "@/utils/supabase/client";
 import { motion } from "framer-motion";
 import UbicacionCompra from "../components/compartidos/UbicacionCompra";
 
+export const dynamic = 'force-dynamic';
+
 export default function CompraExitosaPage() {
   const searchParams = useSearchParams();
   const router = useRouter();

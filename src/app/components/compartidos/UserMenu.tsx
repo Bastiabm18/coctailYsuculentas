@@ -10,16 +10,24 @@ interface UserMenuProps {
   tema: "cocteleria" | "suculentas";
   onAbrirAuth: () => void;
 }
+// 1. Convertimos la variable de entorno en un array separando por comas
+const ADMINS_PERMITIDOS = (process.env.NEXT_PUBLIC_ADMIN_CORREO || "")
+  .split(",")
+  .map((email) => email.trim());
 
 export default function UserMenu({ tema, onAbrirAuth }: UserMenuProps) {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const router = useRouter();
   const { userData, avatar, cerrarSesion } = useAuth();
-  const esCocteleria = tema === "cocteleria";
+   const esAdmin = userData?.email ? ADMINS_PERMITIDOS.includes(userData.email) : false;
 
+
+  const esCocteleria = tema === "cocteleria";
+ 
   const coloresBoton = esCocteleria
     ? "text-pastel-brown hover:bg-pastel-brown/10"
     : "text-neutral-100 hover:bg-neutral-100/10";
+
 
   const handleClick = () => {
     if (userData) {
@@ -70,6 +78,35 @@ export default function UserMenu({ tema, onAbrirAuth }: UserMenuProps) {
               >
                 Perfil
               </button>
+              <button
+                onClick={() => {
+                  setMenuAbierto(false);
+                  router.push("/miscompras");
+                }}
+                className={`w-full px-4 py-3 text-left text-sm transition-colors ${
+                  esCocteleria
+                    ? "text-pastel-brown hover:bg-pastel-brown/5"
+                    : "text-neutral-100 hover:bg-neutral-800"
+                }`}
+              >
+                Mis Compras
+              </button>
+                  {esAdmin && (
+                    <button
+                      onClick={() => {
+                        setMenuAbierto(false);
+                        router.push("/dashboard");
+                      }}
+                      className={`w-full px-4 py-3 text-left text-sm transition-colors ${
+                        esCocteleria
+                          ? "text-pastel-brown hover:bg-pastel-brown/5"
+                          : "text-neutral-100 hover:bg-neutral-800"
+                      }`}
+                    >
+                      Admin
+                    </button>
+                  )}
+
               <button
                 onClick={() => {
                   setMenuAbierto(false);

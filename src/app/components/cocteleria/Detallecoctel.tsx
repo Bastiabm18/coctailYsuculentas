@@ -11,7 +11,7 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { FaFire, FaStar, FaSyncAlt, FaGlassMartiniAlt } from "react-icons/fa";
-import { GiCookingPot, GiWineGlass } from "react-icons/gi";
+import { GiCakeSlice, GiCookingPot, GiWineGlass } from "react-icons/gi";
 import { IoWater } from "react-icons/io5";
 import { MdAddShoppingCart } from "react-icons/md";
 import { HiArrowLeft } from "react-icons/hi2";
@@ -383,7 +383,7 @@ function CaraReverso({
             fontSize: "52cqw",
           }}
         >
-          <FaGlassMartiniAlt />
+          <GiCakeSlice />
         </div>
 
         {/* Encabezado */}

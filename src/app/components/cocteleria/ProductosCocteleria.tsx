@@ -9,7 +9,7 @@ import {
   useTransform,
   type Variants,
 } from "framer-motion";
-import { GiCookingPot, GiWineGlass } from "react-icons/gi";
+import { GiCakeSlice, GiCookingPot, GiWineGlass } from "react-icons/gi";
 import { FaEye, FaFire, FaStar } from "react-icons/fa";
 import { IoWater } from "react-icons/io5";
 import { MdAddShoppingCart } from "react-icons/md";
@@ -264,7 +264,7 @@ function CartaProducto({ producto, index, total, onAdd }: CartaProps) {
               <span>resistencia</span>
               <span className="flex items-center gap-0.5 text-[9px] font-bold">
                 <Energia className="bg-[#9a5a2b] text-white">
-                  <GiWineGlass />
+                  <GiCakeSlice />
                 </Energia>
                 -30
               </span>

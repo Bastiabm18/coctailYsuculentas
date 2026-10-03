@@ -65,7 +65,7 @@ export default function ContenedorNoticias({ tienda }: Props) {
           className={`flex w-fit items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold tracking-wider uppercase md:text-sm ${tema.etiqueta}`}
         >
           <HiOutlineNewspaper className="text-base" />
-          Última noticia
+          Lo Último
         </span>
 
         <h2

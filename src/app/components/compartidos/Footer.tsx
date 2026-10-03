@@ -61,7 +61,7 @@ const TEMAS = {
     icono: "text-pastel-pink",
     enlace: "hover:text-pastel-pink",
     corazon: "text-pastel-pink",
-     imagen:'/logo1.PNG',
+     imagen:'/logo1.png',
   },
   suculentas: {
     id:'2',
@@ -73,7 +73,7 @@ const TEMAS = {
     icono: "text-cream/80",
     enlace: "hover:text-white",
     corazon: "text-cream",
-    imagen:'/logo1.PNG',
+    imagen:'/logo1.png',
   },
 } as const;
 
@@ -118,6 +118,7 @@ export default function Footer({ tienda }: Props) {
               alt={tema.id === '1' ? "Logo de Coctelería" : "Logo de Suculentas"}
               width={160}
               height={160}
+              unoptimized
               className="h-auto w-28 md:w-32"
             />
           </a>

@@ -87,7 +87,7 @@ export default function Map({
   const mapboxAttribution =
     'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
 
-  const mapStyleId = 'mapbox/navigation-night-v1';
+  const mapStyleId = 'mapbox/outdoors-v11';
   const tileUrl = `https://api.mapbox.com/styles/v1/${mapStyleId}/tiles/{z}/{x}/{y}?access_token=${accessToken}`;
 
   const tema = TEMAS[tienda];

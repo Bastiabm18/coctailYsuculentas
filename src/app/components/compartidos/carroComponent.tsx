@@ -33,7 +33,7 @@ export default function CarroComponent() {
           />
 
           <motion.aside
-            className="fixed top-0 right-0 bottom-0 z-[95] flex flex-col bg-white/90 rounded-2xl shadow-2xl w-full md:w-[420px]"
+            className="fixed top-0 right-0 bottom-0 z-[99999] flex flex-col bg-white/90 rounded-2xl shadow-2xl w-full md:w-[420px]"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}

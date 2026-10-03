@@ -6,6 +6,7 @@ import ProductosCocteleria from "../components/cocteleria/ProductosCocteleria";
 import AuthModal from "../components/compartidos/AuthModal";
 import Footer from "../components/compartidos/Footer";
 import Navbar from "../components/compartidos/navbar";
+import ProductosDestacados from "../components/compartidos/ProductosDestacados";
 import ContenedorNoticias from "../components/noticias/ContenedorTarjetas";
 import dynamic from "next/dynamic";
 
@@ -21,6 +22,7 @@ export default function cocteleriaPage() {
       <AuthModal />
       <Navbar tema="cocteleria" />
       <HeroCocteleria />
+     <ProductosDestacados tienda="cocteleria" />
       <ContenedorNoticias
         tienda="cocteleria"
       />

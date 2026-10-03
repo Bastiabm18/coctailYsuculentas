@@ -102,3 +102,27 @@ export async function obtenerProductoPorId(id: string): Promise<Producto | null>
   }
   return (data as Producto | null) ?? null;
 }
+
+export async function obtenerCoctelesDestacados(): Promise<Producto[]> {
+    const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const { data, error } = await supabase.rpc("obtener_cocteles_destacados");
+
+  if (error) {
+    console.error("obtenerCoctelesDestacados:", error.message);
+    return [];
+  }
+  return (data ?? []) as Producto[];
+}
+
+export async function obtenerSuculentasDestacadas(): Promise<Producto[]> {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const { data, error } = await supabase.rpc("obtener_suculentas_destacadas");
+
+  if (error) {
+    console.error("obtenerSuculentasDestacadas:", error.message);
+    return [];
+  }
+  return (data ?? []) as Producto[];
+}

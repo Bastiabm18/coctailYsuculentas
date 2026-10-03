@@ -8,6 +8,7 @@ export interface Producto {
   estado: boolean;
   fecha_creacion: string;
   cuidados?: string[]; // Cambiado de string a string[]
+  destacado?: boolean; // Nuevo campo para indicar si el producto es destacado
 }
 
 export interface ProductoForm {
@@ -19,6 +20,7 @@ export interface ProductoForm {
   precio: number;
   estado: boolean;
   cuidados?:string[];
+  destacad?: boolean;
 }
 
 export interface Noticia {
@@ -30,6 +32,7 @@ export interface Noticia {
   estado: boolean;
   fecha_creacion: string;
   fecha_actualizacion: string;
+  destacado?: boolean; // Nuevo campo para indicar si la noticia es destacada
 }
 
 export interface NoticiaForm {

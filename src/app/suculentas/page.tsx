@@ -10,6 +10,7 @@ import TarjetaNoticia from "../components/noticias/TarjetaNoticia";
 
 import dynamic from "next/dynamic";
 import Footer from "../components/compartidos/Footer";
+import ProductosDestacados from "../components/compartidos/ProductosDestacados";
 
 const Map = dynamic(
   () => import("../components/compartidos/MapUbicacion"),
@@ -24,6 +25,7 @@ export default function SuculentasPage() {
         <AuthModal />
       <Navbar tema="suculentas" />
       <HeroSuculentas />
+      <ProductosDestacados tienda="suculentas" />
       <ContenedorNoticias
         tienda="suculentas"/>
       <ProductosSuculentas />

@@ -69,3 +69,36 @@ export async function obtenerDetalleVenta(ventaId: string) {
     items: data,
   };
 }
+
+
+export async function obtenerSuculentaPorId(id: string): Promise<Producto | null> {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+
+  const { data, error } = await supabase
+    .rpc("obtener_suculenta_por_id", { p_id: id })
+    .maybeSingle();
+
+  if (error) {
+    console.error("obtenerSuculentaPorId:", error.message);
+    return null;
+  }
+  return (data as Producto | null) ?? null;
+}
+
+
+
+export async function obtenerProductoPorId(id: string): Promise<Producto | null> {
+   const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+
+  const { data, error } = await supabase
+    .rpc("obtener_coctel_por_id", { p_id: id })
+    .maybeSingle();
+
+  if (error) {
+    console.error("obtenerProductoPorId:", error.message);
+    return null;
+  }
+  return (data as Producto | null) ?? null;
+}

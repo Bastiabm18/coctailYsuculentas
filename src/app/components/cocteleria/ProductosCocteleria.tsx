@@ -10,12 +10,13 @@ import {
   type Variants,
 } from "framer-motion";
 import { GiCookingPot, GiWineGlass } from "react-icons/gi";
-import { FaFire, FaStar } from "react-icons/fa";
+import { FaEye, FaFire, FaStar } from "react-icons/fa";
 import { IoWater } from "react-icons/io5";
 import { MdAddShoppingCart } from "react-icons/md";
 import { useCart } from "@/context/CartContext";
 import type { Producto } from "@/app/types/productos";
 import { obtenerCoctelesVisibles } from "@/app/actions/actions";
+import { useRouter } from "next/navigation";
 
 const cardVariants: Variants = {
   hidden: { y: 50, opacity: 0 },
@@ -36,6 +37,15 @@ function Energia({ className = "", children }: { className?: string; children: R
     </span>
   );
 }
+function Ojo({ className = "", children }: { className?: string; children: React.ReactNode }) {
+  return (
+    <span
+      className={`flex h-[18px] w-[18px] items-center justify-center rounded-full border border-black/70 text-[10px] shadow-[inset_0_-2px_3px_rgba(0,0,0,.25)] ${className}`}
+    >
+      {children}
+    </span>
+  );
+}
 
 type CartaProps = {
   producto: Producto;
@@ -46,6 +56,7 @@ type CartaProps = {
 
 function CartaProducto({ producto, index, total, onAdd }: CartaProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   // posición del mouse (0 a 1) y estado hover
   const mx = useMotionValue(0.5);
@@ -212,6 +223,30 @@ function CartaProducto({ producto, index, total, onAdd }: CartaProps) {
               +1
               <MdAddShoppingCart className="text-[16px]" />
             </span>
+          </motion.button>
+          <motion.button
+            type="button"
+            onClick={() => router.push(`/cocteleria/productos/${producto.id}`)}
+            whileTap={{ scale: 0.97 }}
+            className="relative mt-1 flex w-full items-center gap-1.5 border-y border-black/30 bg-white/20 px-1 py-1 text-left transition-colors hover:bg-white/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#2f2ba0]"
+            aria-label={`ver ${producto.nombre} `}
+          >
+            <span className="flex gap-0.5">
+              <Energia className="bg-[#e5361f] text-white">
+                <FaEye />
+              </Energia>
+              <Energia className="bg-[#e5361f] text-white">
+                <FaEye />
+              </Energia>
+            </span>
+            <span className="flex-1 text-[15px] font-extrabold leading-none">
+              Ver más
+              <span className="ml-1 text-[8px] font-semibold italic">
+                detalles
+
+             </span>
+            </span>
+           
           </motion.button>
 
           {/* ===== Debilidad / resistencia / retirada ===== */}

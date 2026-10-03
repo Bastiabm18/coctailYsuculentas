@@ -9,13 +9,15 @@ import {
   useTransform,
   type Variants,
 } from "framer-motion";
-import { GiCactus, GiPlantSeed } from "react-icons/gi";
+import { GiCactus, GiEyeTarget, GiPlantSeed } from "react-icons/gi";
 import { FaStar } from "react-icons/fa";
 import { IoWater } from "react-icons/io5";
 import { MdAddShoppingCart } from "react-icons/md";
 import { useCart } from "@/context/CartContext";
 import type { Producto } from "@/app/types/productos";
 import { obtenerSuculentasVisibles } from "@/app/actions/actions";
+import { FaEye } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 
 /* ---------- Tema de la carta (estilo Venusaur · tipo planta) ---------- */
 const TEMA = {
@@ -75,6 +77,31 @@ function Energia({
     </span>
   );
 }
+function Ver({
+  tipo,
+  size = 6,
+}: {
+  tipo: "pasto" | "incolora";
+  size?: number;
+}) {
+  const pasto = tipo === "pasto";
+  return (
+    <span
+      className="flex shrink-0 items-center justify-center rounded-full"
+      style={{
+        width: `${size}cqw`,
+        height: `${size}cqw`,
+        background: pasto ? TEMA.pasto : TEMA.incolora,
+        border: `0.35cqw solid ${pasto ? TEMA.pastoBorde : "#3b3f41"}`,
+        boxShadow: "0 0.2cqw 0.4cqw rgba(0,0,0,.3)",
+        color: pasto ? TEMA.pastoIcono : "#2f3335",
+        fontSize: `${size * 0.55}cqw`,
+      }}
+    >
+      {pasto ? <GiEyeTarget /> : <FaEye />}
+    </span>
+  );
+}
 
 type CartaProps = {
   producto: Producto;
@@ -85,6 +112,7 @@ type CartaProps = {
 
 function CartaSuculenta({ producto, index, total, onAdd }: CartaProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const mx = useMotionValue(0.5);
   const my = useMotionValue(0.5);
@@ -322,6 +350,29 @@ function CartaSuculenta({ producto, index, total, onAdd }: CartaProps) {
               <span className="mt-[1cqw] block leading-[1.22]" style={fs(3.3)}>
                 Esta acción suma 1 unidad al carrito por {precio}.
               </span>
+            </motion.button>
+            <motion.button
+              type="button"
+              onClick={() => router.push(`/suculentas/productos/${producto.id}`)}
+              whileTap={{ scale: 0.98 }}
+              aria-label={`Añadir ${producto.nombre} al carrito`}
+              className="group mt-[2.4cqw] w-full rounded-[1cqw] px-[0.5cqw] py-[0.8cqw] text-left transition-colors hover:bg-white/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#16240f]"
+            >
+              <span className="flex items-center">
+                <span className="flex w-[19cqw] shrink-0 gap-[0.7cqw]">
+                  <Ver tipo="pasto" />
+                  <Ver tipo="pasto" />
+                  <Ver tipo="incolora" />
+                </span>
+                <span
+                  className="flex-1 font-extrabold leading-none"
+                  style={{ ...fs(4.6), color: TEMA.titulo }}
+                >
+                  Ver detalles
+                </span>
+               
+              </span>
+             
             </motion.button>
           </div>
 

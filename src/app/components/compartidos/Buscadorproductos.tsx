@@ -6,6 +6,8 @@ import { useCart } from "@/context/CartContext";
 import type { Producto } from "@/app/types/productos";
 import CartaCocteleria from "../cocteleria/Cartacocteleria";
 import CartaSuculenta from "../suculentas/Cartasuculenta";
+import { FaArrowLeft } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 
 type Tienda = "cocteleria" | "suculentas";
 
@@ -57,6 +59,7 @@ export default function BuscadorProductos({
   const [consulta, setConsulta] = useState("");
   const cfg = CONFIG[tienda];
   const Carta = cfg.Carta;
+  const router = useRouter();
 
   // Guardamos la posición original para que el número de carta no cambie al filtrar
   const filtrados = useMemo(() => {
@@ -76,6 +79,17 @@ export default function BuscadorProductos({
     // pt-28 / md:pt-32 = alto del menú flotante
     <div className={`min-h-screen w-full px-6 pb-24 pt-28 md:pt-32 ${cfg.fondo}`}>
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-12">
+         <div className="w-full flex items-center justify-start flex-row">
+          <button
+            className={ `cursor-pointer ${tienda === "cocteleria" ? "text-pastel-brown/45 hover:text-pastel-brown" : "text-cream/45 hover:text-cream"} transition-colors duration-300 flex items-center justify-center gap-5 flex-row`}
+            onClick={() => {
+                router.push(`/${tienda === "cocteleria" ? "cocteleria" : "suculentas"}`);
+            }}
+          >
+            <FaArrowLeft/>
+            Volver
+          </button>
+        </div>
         {/* ===== 1. Buscador ===== */}
         <div className="flex flex-col items-center gap-5 text-center">
           <h1

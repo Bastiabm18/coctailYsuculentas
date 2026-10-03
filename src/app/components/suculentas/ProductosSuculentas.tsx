@@ -507,7 +507,7 @@ export default function ProductosSuculentas() {
           <button
             className="cursor-pointer text-cream/45 hover:text-cream transition-colors duration-300 flex items-center justify-center gap-5 flex-row"
             onClick={() => {
-                router.push("/coctailbuscador");
+                router.push("/suculentabuscador");
             }}
           >
             Ver Todos los Productos

@@ -126,3 +126,29 @@ export async function obtenerSuculentasDestacadas(): Promise<Producto[]> {
   }
   return (data ?? []) as Producto[];
 }
+
+export async function obtenerTodasNoticiasVisibles(): Promise<Noticia[]> {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const { data, error } = await supabase.rpc("obtener_todas_noticias_visibles");
+
+  if (error) {
+    console.error("obtenerTodasNoticiasVisibles:", error.message);
+    return [];
+  }
+  return (data ?? []) as Noticia[];
+}
+
+export async function obtenerNoticiaPorId(id: string): Promise<Noticia | null> {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const { data, error } = await supabase.rpc("obtener_noticia_por_id", {
+    p_id: id,
+  });
+
+  if (error) {
+    console.error("obtenerNoticiaPorId:", error.message);
+    return null;
+  }
+  return ((data as Noticia[])?.[0] ?? null);
+}

@@ -7,6 +7,7 @@ export interface Producto {
   precio: number;
   estado: boolean;
   fecha_creacion: string;
+  cuidados?: string[]; // Cambiado de string a string[]
 }
 
 export interface ProductoForm {
@@ -17,6 +18,7 @@ export interface ProductoForm {
   tipo: string;
   precio: number;
   estado: boolean;
+  cuidados?:string[];
 }
 
 export interface Noticia {

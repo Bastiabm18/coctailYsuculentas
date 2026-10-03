@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
-import TarjetaNoticia from "./TarjetaNoticia";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { HiOutlineNewspaper, HiArrowRight, HiPlus } from "react-icons/hi2";
 import type { Noticia } from "@/app/types/productos";
 import { obtenerNoticiasVisibles } from "@/app/actions/actions";
 
@@ -12,125 +11,146 @@ interface Props {
 }
 
 export default function ContenedorNoticias({ tienda }: Props) {
-  const [noticias, setNoticias] = useState<Noticia[]>([]);
-  const [index, setIndex] = useState(0);
-  const [esMovil, setEsMovil] = useState(false);
+  const [noticia, setNoticia] = useState<Noticia | null>(null);
 
   const bgFondo = tienda === "cocteleria" ? "bg-pastel-peach/50" : "bg-terra-dark";
   const bgText = tienda === "cocteleria" ? "text-pastel-brown" : "text-cream";
+  const badgeClase =
+    tienda === "cocteleria"
+      ? "bg-pastel-peach text-pastel-brown"
+      : "bg-white/10 text-cream backdrop-blur-sm";
 
-  useEffect(() => {
-    const check = () => setEsMovil(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+  const fondoContenido = tienda === "cocteleria" ? "bg-white" : "bg-terra-dark";
+  const colorTitulo = tienda === "cocteleria" ? "text-pastel-brown" : "text-cream";
+  const colorSubtitulo = tienda === "cocteleria" ? "text-pastel-brown/70" : "text-cream/70";
+  const colorContenido = tienda === "cocteleria" ? "text-pastel-brown/90" : "text-cream/90";
+  const colorLink = tienda === "cocteleria" ? "text-pastel-brown" : "text-cream";
+  const bordeSeparador = tienda === "cocteleria" ? "border-pastel-brown/15" : "border-cream/15";
 
   useEffect(() => {
     obtenerNoticiasVisibles()
-      .then(setNoticias)
+      .then((noticias) => {
+        setNoticia(noticias[0] ?? null);
+      })
       .catch(() => {});
   }, []);
 
-  const maxIndex = useCallback(() => {
-    if (noticias.length === 0) return 0;
-    return esMovil ? noticias.length - 1 : Math.max(0, noticias.length - 2);
-  }, [noticias.length, esMovil]);
+  if (!noticia) return null;
 
-  const anterior = () => setIndex((i) => Math.max(0, i - 1));
-  const siguiente = () => setIndex((i) => Math.min(maxIndex(), i + 1));
-
-  if (noticias.length === 0) return null;
-
-  const offset = esMovil ? index * 100 : index * 50;
+  const { titulo, subtitulo, contenido, imagen_url } = noticia;
 
   return (
-    <div className={`relative w-full flex flex-col gap-10 ${bgFondo}`}>
-      <div>
-
+    <div className={`relative w-full flex flex-col gap-10 pb-16 ${bgFondo}`}>
       <motion.h2
-        className={`text-center ${bgText} text-3xl font-bold tracking-tight md:text-5xl pt-5`}
+        className={`text-center ${bgText} text-3xl font-bold tracking-tight md:text-5xl pt-10`}
         initial={{ y: 30, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.7 }}
-        
-        >
-        Noticias
+      >
+       Lo Mas Reciente
       </motion.h2>
-      </div>
 
-      <div className="overflow-hidden rounded-2xl pl-5">
+      <div className="w-full px-4 md:px-8">
         <motion.div
-          className="flex gap-4"
-          animate={{ x: `-${offset}%` }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          drag="x"
-          dragConstraints={{ left: -maxIndex() * (esMovil ? window.innerWidth * 0.85 + 16 : window.innerWidth * 0.44 + 16), right: 0 }}
-          dragElastic={0.1}
-          onDragEnd={(_, info) => {
-            if (info.offset.x < -50) siguiente();
-            else if (info.offset.x > 50) anterior();
-          }}
+          className={`relative w-full overflow-hidden rounded-2xl md:rounded-3xl border ${bordeSeparador} ${fondoContenido}`}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          {noticias.map((n) => (
-            <div key={n.id} className="flex-shrink-0 pr-4">
-              <TarjetaNoticia
-                titulo={n.titulo}
-                subtitulo={n.subtitulo}
-                imagen_url={n.imagen_url}
-                tienda={tienda}
+          {/* Imagen */}
+          <div className="relative w-full h-[50vh] md:h-[65vh] overflow-hidden group">
+            {imagen_url ? (
+              <motion.img
+                src={imagen_url}
+                alt={titulo}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                initial={{ scale: 1.1 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
               />
-            </div>
-          ))}
+            ) : (
+              <div className="h-full w-full bg-neutral-300" />
+            )}
+
+            {/* Badge */}
+            <motion.div
+              className={`absolute top-6 left-6 md:top-8 md:left-8 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium ${badgeClase}`}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <HiOutlineNewspaper className="text-base" />
+              Última noticia
+            </motion.div>
+          </div>
+
+          {/* Texto */}
+          <div className="p-6 md:p-14 flex flex-col gap-4 md:gap-6 max-w-4xl mx-auto">
+            <motion.h3
+              className={`text-2xl md:text-4xl font-bold leading-tight ${colorTitulo}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+            >
+              {titulo}
+            </motion.h3>
+
+            {subtitulo && (
+              <motion.p
+                className={`text-base md:text-xl font-medium ${colorSubtitulo}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.3 }}
+              >
+                {subtitulo}
+              </motion.p>
+            )}
+
+            {contenido && (
+              <motion.p
+                className={`text-sm md:text-base leading-relaxed whitespace-pre-line ${colorContenido}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.4 }}
+              >
+                {contenido}
+              </motion.p>
+            )}
+
+            <motion.div
+              className={`flex items-center gap-2 text-sm md:text-base font-medium mt-2 group cursor-pointer w-fit ${colorLink}`}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.5 }}
+            >
+              Leer más
+              <HiArrowRight className="transition-transform group-hover:translate-x-1" />
+            </motion.div>
+          </div>
+
+          {/* Separador + Ver más noticias */}
+          <div className={`border-t ${bordeSeparador} px-6 md:px-14 py-4 flex justify-end`}>
+            <motion.a
+              href="/noticias"
+              className={`flex items-center gap-1.5 text-xs md:text-sm font-medium opacity-60 hover:opacity-100 transition-opacity ${colorLink}`}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 0.6 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.6 }}
+            >
+              <HiPlus className="text-xs" />
+              Ver más noticias
+            </motion.a>
+          </div>
         </motion.div>
-      </div>
-
-      {/* Botones PC */}
-      <AnimatePresence>
-        {index > 0 && (
-          <motion.button
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -10 }}
-            onClick={anterior}
-            className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-lg border border-neutral-100 text-neutral-600 hover:bg-white hover:text-neutral-800 transition-colors"
-          >
-            <HiChevronLeft className="text-xl" />
-          </motion.button>
-        )}
-        {index < maxIndex() && (
-          <motion.button
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 10 }}
-            onClick={siguiente}
-            className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-lg border border-neutral-100 text-neutral-600 hover:bg-white hover:text-neutral-800 transition-colors"
-          >
-            <HiChevronRight className="text-xl" />
-          </motion.button>
-        )}
-      </AnimatePresence>
-
-      {/* Botones móvil */}
-      <div className="flex md:hidden items-center justify-center gap-3 mt-4 pb-5">
-        <button
-          onClick={anterior}
-          disabled={index === 0}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-neutral-200 disabled:opacity-30 transition-colors"
-        >
-          <HiChevronLeft className="text-lg" />
-        </button>
-        <span className="text-xs text-neutral-200/60 min-w-[3rem] text-center">
-          {index + 1} / {noticias.length}
-        </span>
-        <button
-          onClick={siguiente}
-          disabled={index >= maxIndex()}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-neutral-200 disabled:opacity-30 transition-colors"
-        >
-          <HiChevronRight className="text-lg" />
-        </button>
       </div>
     </div>
   );

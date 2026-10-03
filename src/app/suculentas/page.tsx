@@ -1,3 +1,4 @@
+"use client"
 import AuthModal from "../components/compartidos/AuthModal";
 import Navbar from "../components/compartidos/navbar";
 import ContactoSuculentas from "../components/suculentas/ContactoSuculentas";
@@ -6,6 +7,13 @@ import NosotrosSuculentas from "../components/suculentas/NosotrosSuculentas";
 import ProductosSuculentas from "../components/suculentas/ProductosSuculentas";
 import ContenedorNoticias from "../components/noticias/ContenedorTarjetas";
 import TarjetaNoticia from "../components/noticias/TarjetaNoticia";
+
+import dynamic from "next/dynamic";
+
+const Map = dynamic(
+  () => import("../components/compartidos/MapUbicacion"),
+  { ssr: false }
+);
 
 export default function SuculentasPage() {
   return (
@@ -19,6 +27,7 @@ export default function SuculentasPage() {
         tienda="suculentas"/>
       <ProductosSuculentas />
       <NosotrosSuculentas />
+      <Map tienda="suculentas" />
       <ContactoSuculentas />
     </div>
     </>

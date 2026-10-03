@@ -30,7 +30,7 @@ export default function Navbar({ tema }: NavbarProps) {
         initial={{ y: -80 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-md border-b ${
+        className={`fixed top-0 left-0 right-0 z-9999 flex items-center justify-between px-6 py-4 backdrop-blur-md border-b ${
           esCocteleria
             ? "bg-pastel-peach/80 border-pastel-brown/10"
             : "bg-terra/80 border-neutral-100/10"

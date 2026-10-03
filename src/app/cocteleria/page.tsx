@@ -4,6 +4,7 @@ import HeroCocteleria from "../components/cocteleria/HeroCocteleria";
 import NosotrosCocteleria from "../components/cocteleria/NosotrosCocteleria";
 import ProductosCocteleria from "../components/cocteleria/ProductosCocteleria";
 import AuthModal from "../components/compartidos/AuthModal";
+import Footer from "../components/compartidos/Footer";
 import Navbar from "../components/compartidos/navbar";
 import ContenedorNoticias from "../components/noticias/ContenedorTarjetas";
 import dynamic from "next/dynamic";
@@ -27,6 +28,7 @@ export default function cocteleriaPage() {
       <NosotrosCocteleria />
          <Map tienda="cocteleria" />
       <ContactoCocteleria />
+      <Footer tienda="cocteleria" />
     </>
   );
 }

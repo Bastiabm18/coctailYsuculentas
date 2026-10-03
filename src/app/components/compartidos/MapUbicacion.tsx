@@ -23,7 +23,7 @@ L.Icon.Default.mergeOptions({
 });
 
 // Coordenadas de Penco, Chile
-const POSICION_PENCO: [number, number] = [-36.7167, -72.9942];
+const POSICION_PENCO: [number, number] = [-36.73881304674114, -72.99366448724248];
 
 type Tienda = 'cocteleria' | 'suculentas';
 

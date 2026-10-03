@@ -8,6 +8,7 @@ import {
 } from "@/app/actions/actions";
 import DetalleSuculenta from "@/app/components/suculentas/Detallesuculenta";
 import Navbar from "@/app/components/compartidos/navbar";
+import Footer from "@/app/components/compartidos/Footer";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -41,6 +42,7 @@ export default async function ProductoSuculentaPage({ params }: Params) {
       index={posicion >= 0 ? posicion : 0}
       total={lista.length || 1}
       />
+      <Footer tienda="suculentas" />
       </>
   );
 }

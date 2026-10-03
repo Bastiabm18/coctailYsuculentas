@@ -8,6 +8,7 @@ import {
 } from "@/app/actions/actions";
 import DetalleCoctel from "@/app/components/cocteleria/Detallecoctel";
 import Navbar from "@/app/components/compartidos/navbar";
+import Footer from "@/app/components/compartidos/Footer";
 
 
 type Params = { params: Promise<{ id: string }> };
@@ -15,7 +16,7 @@ type Params = { params: Promise<{ id: string }> };
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = await params;
   const producto = await obtenerProductoPorId(id);
-  console.log("Producto encontrado para metadata:", producto);
+ // console.log("Producto encontrado para metadata:", producto);
 
   return {
     title: producto ? `${producto.nombre} | Cocteleria` : "Producto no encontrado",
@@ -44,6 +45,7 @@ export default async function ProductoCocteleriaPage({ params }: Params) {
       index={posicion >= 0 ? posicion : 0}
       total={lista.length || 1}
       />
+      <Footer tienda="cocteleria" />
       </>
   );
 }

@@ -14,24 +14,24 @@ interface Props {
 
 /* ─── Redes sociales: cambia los href por los reales ─── */
 const REDES = [
-  { nombre: "Instagram", href: "https://instagram.com/", Icono: FaInstagram },
+  { nombre: "Instagram", href: "https://www.instagram.com/babm_code/", Icono: FaInstagram },
   { nombre: "Facebook", href: "https://facebook.com/", Icono: FaFacebookF },
-  { nombre: "Correo", href: "mailto:contacto@ejemplo.cl", Icono: MdOutlineEmail },
-  { nombre: "WhatsApp", href: "https://wa.me/569XXXXXXXX", Icono: FaWhatsapp },
+  { nombre: "Correo", href: "mailto:andresbarriosmedina1@gmail.com", Icono: MdOutlineEmail },
+  { nombre: "WhatsApp", href: "https://wa.me/56939125147", Icono: FaWhatsapp },
 ];
 
 /* ─── Datos de contacto: reemplaza por los reales ─── */
 const CONTACTO = [
   {
     etiqueta: "Celular",
-    texto: "+56 9 XXXX XXXX",
-    href: "tel:+569XXXXXXXX",
+    texto: "+56 9 3912 5147",
+    href: "tel:+56939125147",
     Icono: HiOutlinePhone,
   },
   {
     etiqueta: "Email",
-    texto: "contacto@ejemplo.cl",
-    href: "mailto:contacto@ejemplo.cl",
+    texto: "andresbarriosmedina1@gmail.com",
+    href: "mailto:andresbarriosmedina1@gmail.com",
     Icono: HiOutlineEnvelope,
   },
   {
@@ -42,7 +42,7 @@ const CONTACTO = [
   },
   {
     etiqueta: "Dirección",
-    texto: "Calle Ejemplo 123, Penco",
+    texto: "SJ, Concepción, Chile",
     href: undefined,
     Icono: HiOutlineMapPin,
   },
@@ -123,7 +123,9 @@ export default function Footer({ tienda }: Props) {
             />
           </a>
           <p className={`text-center text-xs md:text-sm ${tema.textoSuave}`}>
-            Desarrollada Y Mantenida Por BABM{" "}
+            Desarrollada Y Mantenida Por <a href="https://instagram.com/bastiabm/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">
+              BABM
+            </a>{" "}
             <span className={tema.corazon}>{"<3"}</span>
           </p>
         </div>

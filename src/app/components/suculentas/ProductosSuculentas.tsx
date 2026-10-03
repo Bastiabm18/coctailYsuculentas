@@ -16,7 +16,7 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { useCart } from "@/context/CartContext";
 import type { Producto } from "@/app/types/productos";
 import { obtenerSuculentasVisibles } from "@/app/actions/actions";
-import { FaEye } from "react-icons/fa6";
+import { FaArrowRight, FaEye } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 
 /* ---------- Tema de la carta (estilo Venusaur · tipo planta) ---------- */
@@ -455,6 +455,7 @@ function CartaSuculenta({ producto, index, total, onAdd }: CartaProps) {
 
 export default function ProductosSuculentas() {
   const { agregarItem } = useCart();
+  const router = useRouter();
   const [productos, setProductos] = useState<Producto[]>([]);
 
   useEffect(() => {
@@ -501,6 +502,17 @@ export default function ProductosSuculentas() {
               }
             />
           ))}
+        </div>
+         <div className="w-full flex pt-20 items-center justify-end flex-row">
+          <button
+            className="cursor-pointer text-cream/45 hover:text-cream transition-colors duration-300 flex items-center justify-center gap-5 flex-row"
+            onClick={() => {
+                router.push("/coctailbuscador");
+            }}
+          >
+            Ver Todos los Productos
+            <FaArrowRight/>
+          </button>
         </div>
       </div>
     </section>

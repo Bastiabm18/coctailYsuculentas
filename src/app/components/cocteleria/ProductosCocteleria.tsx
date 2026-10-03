@@ -17,6 +17,7 @@ import { useCart } from "@/context/CartContext";
 import type { Producto } from "@/app/types/productos";
 import { obtenerCoctelesVisibles } from "@/app/actions/actions";
 import { useRouter } from "next/navigation";
+import { FaArrowRight } from "react-icons/fa6";
 
 const cardVariants: Variants = {
   hidden: { y: 50, opacity: 0 },
@@ -315,6 +316,7 @@ function CartaProducto({ producto, index, total, onAdd }: CartaProps) {
 
 export default function ProductosCocteleria() {
   const { agregarItem } = useCart();
+  const router = useRouter();
   const [productos, setProductos] = useState<Producto[]>([]);
 
   useEffect(() => {
@@ -361,6 +363,17 @@ export default function ProductosCocteleria() {
               }
             />
           ))}
+        </div>
+        <div className="w-full flex items-center justify-end flex-row pt-20">
+          <button
+            className="cursor-pointer text-pastel-brown/45 hover:text-pastel-brown transition-colors duration-300 flex items-center justify-center gap-5 flex-row"
+            onClick={() => {
+                router.push("/coctailbuscador");
+            }}
+          >
+            Ver Todos los Productos
+            <FaArrowRight/>
+          </button>
         </div>
       </div>
     </section>

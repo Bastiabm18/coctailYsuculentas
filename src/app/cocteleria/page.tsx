@@ -22,10 +22,10 @@ export default function cocteleriaPage() {
       <AuthModal />
       <Navbar tema="cocteleria" />
       <HeroCocteleria />
-     <ProductosDestacados tienda="cocteleria" />
       <ContenedorNoticias
         tienda="cocteleria"
       />
+     <ProductosDestacados tienda="cocteleria" />
       <ProductosCocteleria />
       <NosotrosCocteleria />
          <Map tienda="cocteleria" />

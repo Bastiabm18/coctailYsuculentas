@@ -25,9 +25,9 @@ export default function SuculentasPage() {
         <AuthModal />
       <Navbar tema="suculentas" />
       <HeroSuculentas />
-      <ProductosDestacados tienda="suculentas" />
       <ContenedorNoticias
         tienda="suculentas"/>
+      <ProductosDestacados tienda="suculentas" />
       <ProductosSuculentas />
       <NosotrosSuculentas />
       <Map tienda="suculentas" />

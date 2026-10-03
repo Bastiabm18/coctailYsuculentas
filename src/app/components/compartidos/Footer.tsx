@@ -61,7 +61,7 @@ const TEMAS = {
     icono: "text-pastel-pink",
     enlace: "hover:text-pastel-pink",
     corazon: "text-pastel-pink",
-     imagen:'/logo 1.PNG',
+     imagen:'/logo1.PNG',
   },
   suculentas: {
     id:'2',
@@ -73,7 +73,7 @@ const TEMAS = {
     icono: "text-cream/80",
     enlace: "hover:text-white",
     corazon: "text-cream",
-    imagen:'/logo 1.PNG',
+    imagen:'/logo1.PNG',
   },
 } as const;
 

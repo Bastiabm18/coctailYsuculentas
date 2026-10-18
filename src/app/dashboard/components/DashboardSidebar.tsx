@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { HiOutlineHome, HiOutlineFire, HiOutlineSparkles, HiArrowRightOnRectangle, HiXMark, HiChevronLeft, HiChevronRight } from "react-icons/hi2";
-import { BsNewspaper } from "react-icons/bs";
+import { BsArrowLeft, BsNewspaper } from "react-icons/bs";
 import { MdSell } from "react-icons/md";
 import { CgDollar } from "react-icons/cg";
 
@@ -20,6 +20,7 @@ const menuItems: MenuItem[] = [
   { nombre: "Cocteles", path: "/dashboard/cocteles", icon: <HiOutlineFire className="text-xl" /> },
   { nombre: "Suculentas", path: "/dashboard/suculentas", icon: <HiOutlineSparkles className="text-xl" /> },
   { nombre: "noticias", path: "/dashboard/noticias", icon: <BsNewspaper className="text-xl" /> },
+  { nombre: "salir", path: "/", icon: <BsArrowLeft className="text-xl" /> },
 ];
 
 interface Props {

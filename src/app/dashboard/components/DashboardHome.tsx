@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { BiMoney } from "react-icons/bi";
+import { BsArrowLeft } from "react-icons/bs";
 import { CgDollar } from "react-icons/cg";
 import { HiOutlineFire, HiOutlineSparkles, HiArrowRight, HiOutlineNewspaper } from "react-icons/hi2";
 import { MdMoney, MdSell } from "react-icons/md";
@@ -31,6 +32,12 @@ const secciones = [
    { nombre: "Noticias", 
     path: "/dashboard/noticias", 
     icon: <HiOutlineNewspaper className="text-xl"
+     />,
+     color: "bg-terra/20 text-terra-dark",
+    },
+   { nombre: "Salir", 
+    path: "/", 
+    icon: <BsArrowLeft className="text-xl"
      />,
      color: "bg-terra/20 text-terra-dark",
     },

@@ -65,6 +65,21 @@ export default function UserMenu({ tema, onAbrirAuth }: UserMenuProps) {
                   : "border-neutral-800 bg-neutral-900"
               }`}
             >
+           {esAdmin && (
+                    <button
+                      onClick={() => {
+                        setMenuAbierto(false);
+                        router.push("/dashboard");
+                      }}
+                      className={`w-full px-4 py-3 text-left text-sm transition-colors ${
+                        esCocteleria
+                          ? "text-pastel-brown hover:bg-pastel-brown/5"
+                          : "text-neutral-100 hover:bg-neutral-800"
+                      }`}
+                    >
+                      Dashboard
+                    </button>
+            )}
               <button
                 onClick={() => {
                   setMenuAbierto(false);
@@ -91,21 +106,7 @@ export default function UserMenu({ tema, onAbrirAuth }: UserMenuProps) {
               >
                 Mis Compras
               </button>
-                  {esAdmin && (
-                    <button
-                      onClick={() => {
-                        setMenuAbierto(false);
-                        router.push("/dashboard");
-                      }}
-                      className={`w-full px-4 py-3 text-left text-sm transition-colors ${
-                        esCocteleria
-                          ? "text-pastel-brown hover:bg-pastel-brown/5"
-                          : "text-neutral-100 hover:bg-neutral-800"
-                      }`}
-                    >
-                      Dashboard
-                    </button>
-                  )}
+
 
               <button
                 onClick={() => {

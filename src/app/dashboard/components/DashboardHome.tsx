@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { BiMoney } from "react-icons/bi";
+import { CgDollar } from "react-icons/cg";
 import { HiOutlineFire, HiOutlineSparkles, HiArrowRight, HiOutlineNewspaper } from "react-icons/hi2";
-import { MdSell } from "react-icons/md";
+import { MdMoney, MdSell } from "react-icons/md";
 
 const secciones = [
   {
@@ -16,7 +18,7 @@ const secciones = [
     nombre: "Ventas",
     descripcion: "Gestiona tus ventas",
     path: "/dashboard/ventas",
-    icon: <MdSell className="text-3xl" />,
+    icon: <CgDollar className="text-3xl" />,
     color: "bg-pastel-peach/20 text-pastel-red",
   },
   {

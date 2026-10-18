@@ -4,17 +4,12 @@ import Link from "next/link";
 import { BiMoney } from "react-icons/bi";
 import { BsArrowLeft } from "react-icons/bs";
 import { CgDollar } from "react-icons/cg";
+import { GiCakeSlice } from "react-icons/gi";
 import { HiOutlineFire, HiOutlineSparkles, HiArrowRight, HiOutlineNewspaper } from "react-icons/hi2";
 import { MdMoney, MdSell } from "react-icons/md";
+import { PiPottedPlantBold } from "react-icons/pi";
 
 const secciones = [
-  {
-    nombre: "Cocteles",
-    descripcion: "Gestiona los productos de coctelería",
-    path: "/dashboard/cocteles",
-    icon: <HiOutlineFire className="text-3xl" />,
-    color: "bg-pastel-peach/20 text-pastel-red",
-  },
   {
     nombre: "Ventas",
     descripcion: "Gestiona tus ventas",
@@ -23,10 +18,17 @@ const secciones = [
     color: "bg-pastel-peach/20 text-pastel-red",
   },
   {
+    nombre: "Cocteles",
+    descripcion: "Gestiona los productos de coctelería",
+    path: "/dashboard/cocteles",
+    icon: <GiCakeSlice className="text-3xl" />,
+    color: "bg-pastel-peach/20 text-pastel-red",
+  },
+  {
     nombre: "Suculentas",
     descripcion: "Gestiona los productos de suculentas",
     path: "/dashboard/suculentas",
-    icon: <HiOutlineSparkles className="text-3xl" />,
+    icon: <PiPottedPlantBold className="text-3xl" />,
     color: "bg-terra/20 text-terra-dark",
   },
    { nombre: "Noticias", 

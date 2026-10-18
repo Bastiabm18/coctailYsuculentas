@@ -6,6 +6,8 @@ import { HiOutlineClipboardDocumentList, HiMapPin, HiChevronRight } from "react-
 import { motion } from "framer-motion";
 import { obtenerHistorialCompras } from "../actions/actions";
 import DetalleCompraModal from "../components/compartidos/DetalleCompraModal";
+import { BsArrowLeft } from "react-icons/bs";
+import { useRouter } from "next/navigation";
 
 interface CompraResumen {
   id: string;
@@ -21,6 +23,7 @@ export default function ComprasContent() {
   const { userData } = useAuth();
   const [loading, setLoading] = useState(true);
   const [compras, setCompras] = useState<CompraResumen[]>([]);
+  const router = useRouter();
   
   // Estado para controlar el modal
   const [selectedVentaId, setSelectedVentaId] = useState<string | null>(null);
@@ -51,6 +54,14 @@ export default function ComprasContent() {
     <div className="min-h-screen bg-neutral-50 py-12 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         
+      
+          <div
+            onClick={()=>router.push('/perfil')}
+           className="w-16 h-16 mb-2 md:mb-5 flex items-center justify-center text-pastel-red text-2xl font-bold">
+            <BsArrowLeft/>
+          </div>
+
+   
         {/* Header Usuario */}
         <div className="mb-8 bg-white p-6 rounded-2xl shadow-sm border border-neutral-100 flex items-center gap-4">
           <div className="w-16 h-16 bg-pastel-red/10 rounded-full flex items-center justify-center text-pastel-red text-2xl font-bold">

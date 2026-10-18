@@ -184,7 +184,7 @@ const handleSubmit = async (e: FormEvent) => {
                     id="direccion"
                     name="direccion"
                     required
-                    placeholder="Ej: Av. Providencia 1234, Depto 402"
+                    placeholder="Ej: Av. Los Carrera 2026"
                     value={formData.direccion}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-pastel-red focus:ring-2 focus:ring-pastel-red/20 outline-none transition-all placeholder:text-neutral-300"
@@ -199,7 +199,7 @@ const handleSubmit = async (e: FormEvent) => {
                       id="ciudad"
                       name="ciudad"
                       required
-                      placeholder="Ej: Santiago"
+                      placeholder="Ej: Concepción"
                       value={formData.ciudad}
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-pastel-red focus:ring-2 focus:ring-pastel-red/20 outline-none transition-all placeholder:text-neutral-300"
@@ -216,9 +216,8 @@ const handleSubmit = async (e: FormEvent) => {
                       className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-pastel-red focus:ring-2 focus:ring-pastel-red/20 outline-none transition-all text-neutral-700 bg-white"
                     >
                       <option value="">Selecciona una región</option>
-                      <option value="metropolitana">Región Metropolitana</option>
-                      <option value="valparaiso">Valparaíso</option>
                       <option value="biobio">Biobío</option>
+                      <option value="otra">otra</option>
                       {/* Agrega más regiones si es necesario */}
                     </select>
                   </div>
@@ -341,17 +340,17 @@ const handleSubmit = async (e: FormEvent) => {
                         animate={{ rotate: 360 }}
                         transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                       >
-                        ⏳
+                        
                       </motion.span>
                       Procesando...
                     </>
                   ) : (
-                    <>Pagar Ahora</>
+                    <>Confirmar pedido</>
                   )}
                 </button>
 
                 <p className="text-center text-xs text-neutral-400 mt-4">
-                  🔒 Tus datos están protegidos. Pagos seguros con encriptación SSL.
+                   Tus datos están protegidos.
                 </p>
               </div>
             </div>

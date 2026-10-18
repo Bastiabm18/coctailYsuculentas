@@ -45,6 +45,7 @@ export interface NoticiaForm {
 }
 
 export interface EnvioData {
+  fecha_entrega?:string;
   direccion: string;
   ciudad: string;
   region: string;
@@ -74,5 +75,6 @@ export interface Venta {
   latitud: number | null;
   longitud: number | null;
   fecha_creacion: string;
+  fecha_entrega?:string;
   detalles: VentaDetalle[];
 }

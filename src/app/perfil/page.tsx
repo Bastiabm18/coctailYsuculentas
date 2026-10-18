@@ -19,11 +19,11 @@ export default function PerfilPage() {
       <div className="max-w-md mx-auto pt-8 pb-20">
         {/* Volver */}
         <button
-          onClick={() => router.back()}
+          onClick={() => router.push('/')}
           className="flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-600 transition-colors mb-6"
         >
-          <HiArrowLeft className="text-lg" />
-          Volver
+          <HiArrowLeft className="text-lg w-10 h-10" />
+          
         </button>
 
         {/* Perfil */}

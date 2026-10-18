@@ -179,8 +179,9 @@ const limpiarFiltros = () => {
           <table className="w-full min-w-[900px] text-sm">
             <thead>
               <tr className="border-b border-slate-200 bg-slate-50/80 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
-                <th className="px-5 py-3.5">Fecha</th>
-                <th className="px-5 py-3.5">Envío</th>
+                <th className="px-5 py-3.5">Fecha Compra</th>
+                <th className="px-5 py-3.5">Fecha Entrega</th>
+                <th className="px-5 py-3.5">Dirección</th>
                 <th className="px-5 py-3.5">Productos</th>
                 <th className="px-5 py-3.5 text-right">Total</th>
                 <th className="px-5 py-3.5">Estado</th>
@@ -204,6 +205,9 @@ const limpiarFiltros = () => {
                   texto: v.estado,
                 };
                 const fecha = new Date(v.fecha_creacion);
+                const fecha_entrega = v.fecha_entrega
+                  ? new Date(v.fecha_entrega)
+                  : null;
 
                 return (
                   <tr
@@ -216,6 +220,14 @@ const limpiarFiltros = () => {
                       </div>
                       <div className="text-xs text-slate-500">
                         {fecha.toLocaleTimeString("es-CL", { timeStyle: "short" })}
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap px-5 py-4">
+                        <div className="font-medium text-slate-900">
+                        {fecha_entrega?.toLocaleDateString("es-CL",{dateStyle: "medium"})}
+                      </div>
+                          <div className="text-xs text-slate-500">
+                        {fecha_entrega?.toLocaleTimeString("es-CL", { timeStyle: "short" })}
                       </div>
                     </td>
 

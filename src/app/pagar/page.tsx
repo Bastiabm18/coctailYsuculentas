@@ -19,6 +19,7 @@ export default function PagarPage() {
 
   // Estado del formulario de envío
   const [formData, setFormData] = useState({
+    fechaEntrega:"",
     direccion: "",
     ciudad: "",
     region: "",
@@ -32,6 +33,13 @@ export default function PagarPage() {
   const [isMapOpen, setIsMapOpen] = useState(false);
   
   const [isProcessing, setIsProcessing] = useState(false);
+
+      const [minFecha] = useState(() => {
+      const ahora = (new Date());
+       ahora.setDate(ahora.getDate() + 3);
+      ahora.setMinutes(ahora.getMinutes() - ahora.getTimezoneOffset());
+      return ahora.toISOString().slice(0, 16);
+    });
 
   // Redirigir si el carrito está vacío
   if (items.length === 0) {
@@ -77,6 +85,7 @@ const handleSubmit = async (e: FormEvent) => {
     try {
       // 1. Preparamos el objeto de envío combinando formulario + mapa
       const datosEnvio = {
+        fechaEntrega: new Date(formData.fechaEntrega).toISOString(),
         direccion: formData.direccion,
         ciudad: formData.ciudad,
         region: formData.region,
@@ -177,6 +186,19 @@ const handleSubmit = async (e: FormEvent) => {
               </div>
 
               <div className="space-y-4">
+                <div>
+                  <label htmlFor="fechaEntrega" className="block text-sm font-medium text-neutral-700 mb-1.5">Fecha Entrega</label>
+                  <input
+                     type="datetime-local"
+                     id="fechaEntrega"
+                     name="fechaEntrega"
+                     required
+                     value={formData.fechaEntrega}
+                     onChange={handleChange}
+                     min={minFecha}
+                    className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-pastel-red focus:ring-2 focus:ring-pastel-red/20 outline-none transition-all placeholder:text-neutral-300"
+                  /> 
+                </div>
                 <div>
                   <label htmlFor="direccion" className="block text-sm font-medium text-neutral-700 mb-1.5">Dirección</label>
                   <input

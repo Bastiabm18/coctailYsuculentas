@@ -7,6 +7,7 @@ import AuthModal from "../components/compartidos/AuthModal";
 import Footer from "../components/compartidos/Footer";
 import Navbar from "../components/compartidos/navbar";
 import ProductosDestacados from "../components/compartidos/ProductosDestacados";
+import SuscripcionModal from "../components/compartidos/SuscripcionModal";
 import ContenedorNoticias from "../components/noticias/ContenedorTarjetas";
 import dynamic from "next/dynamic";
 
@@ -29,6 +30,7 @@ export default function cocteleriaPage() {
       <ProductosCocteleria />
       <NosotrosCocteleria />
          <Map tienda="cocteleria" />
+      <SuscripcionModal tienda="cocteleria" />   
       <ContactoCocteleria />
       <Footer tienda="cocteleria" />
     </>

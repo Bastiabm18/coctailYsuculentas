@@ -152,3 +152,20 @@ export async function obtenerNoticiaPorId(id: string): Promise<Noticia | null> {
   }
   return ((data as Noticia[])?.[0] ?? null);
 }
+
+
+export async function suscribirCorreo(
+  nombre: string,
+  email: string,
+  tienda: "cocteleria" | "suculentas"
+) {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+
+  const { error } = await supabase.rpc("suscribir_correo", {
+    p_nombre: nombre,
+    p_email: email,
+    p_tienda: tienda,
+  });
+  if (error) throw new Error(error.message);
+}

@@ -103,7 +103,7 @@ export default function UserMenu({ tema, onAbrirAuth }: UserMenuProps) {
                           : "text-neutral-100 hover:bg-neutral-800"
                       }`}
                     >
-                      Admin
+                      Dashboard
                     </button>
                   )}
 

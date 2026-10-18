@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { HiOutlineHome, HiOutlineFire, HiOutlineSparkles, HiArrowRightOnRectangle, HiXMark, HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { BsNewspaper } from "react-icons/bs";
+import { MdSell } from "react-icons/md";
 
 interface MenuItem {
   nombre: string;
@@ -14,6 +15,7 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { nombre: "Inicio", path: "/dashboard", icon: <HiOutlineHome className="text-xl" /> },
+  { nombre: "Ventas", path: "/dashboard/ventas", icon: <MdSell className="text-xl" /> },
   { nombre: "Cocteles", path: "/dashboard/cocteles", icon: <HiOutlineFire className="text-xl" /> },
   { nombre: "Suculentas", path: "/dashboard/suculentas", icon: <HiOutlineSparkles className="text-xl" /> },
   { nombre: "noticias", path: "/dashboard/noticias", icon: <BsNewspaper className="text-xl" /> },

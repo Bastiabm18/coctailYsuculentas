@@ -52,3 +52,27 @@ export interface EnvioData {
   lat: number;
   lng: number;
 }
+
+export interface VentaDetalle {
+  id: string;
+  producto_id: string;
+  tipo_producto: string;
+  nombre_producto: string;
+  precio: number;
+  cantidad: number;
+}
+
+export interface Venta {
+  id: string;
+  usuario_id: string;
+  total: number;
+  estado: string;
+  direccion: string;
+  ciudad: string;
+  region: string;
+  telefono: string;
+  latitud: number | null;
+  longitud: number | null;
+  fecha_creacion: string;
+  detalles: VentaDetalle[];
+}

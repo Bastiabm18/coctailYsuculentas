@@ -29,15 +29,20 @@ export default function SuculentasManager() {
     try {
       const data = await obtenerCocteles();
       setProductos(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error al cargar productos");
     } finally {
       setCargando(false);
     }
   };
 
   useEffect(() => {
-    cargar();
+    obtenerCocteles()
+      .then(setProductos)
+      .catch((err: unknown) => {
+        setError(err instanceof Error ? err.message : "Error al cargar productos");
+      })
+      .finally(() => setCargando(false));
   }, []);
 
   const handleArchivo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,8 +84,8 @@ export default function SuculentasManager() {
       setArchivo(null);
       setPreview(null);
       await cargar();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Ocurrió un error inesperado");
     } finally {
       setEnviando(false);
     }
@@ -108,8 +113,8 @@ export default function SuculentasManager() {
     try {
       await eliminarCoctel(p.id, p.imagen_url || undefined);
       await cargar();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Ocurrió un error inesperado");
     }
   };
 

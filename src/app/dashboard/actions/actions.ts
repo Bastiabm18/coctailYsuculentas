@@ -3,7 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
-import type { Producto, ProductoForm } from "@/app/types/productos";
+import type { Producto, ProductoForm, Venta } from "@/app/types/productos";
 
 export async function subirImagen(formData: FormData): Promise<string> {
   const cookieStore = await cookies();
@@ -140,4 +140,42 @@ export async function eliminarSuculenta(id: string, imagenUrl?: string) {
   const { error } = await supabase.rpc("eliminar_suculenta", { p_id: id });
   if (error) throw new Error(error.message);
   revalidatePath("/dashboard/suculentas");
+}
+
+
+
+
+// GESTIONAR VENTAS
+
+export async function obtenerVentas(): Promise<Venta[]> {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const { data, error } = await supabase.rpc("obtener_ventas_admin");
+  if (error) throw new Error(error.message);
+  return (data ?? []) as Venta[];
+}
+
+async function cambiarEstadoVenta(id: string, estado: string) {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+
+  const { error } = await supabase.rpc("actualizar_estado_venta", {
+     p_venta_id: id,
+    p_estado: estado,
+  });
+
+  if (error) throw new Error(error.message);
+  revalidatePath("/dashboard/ventas");
+}
+
+export async function gestionarVenta(id: string) {
+  await cambiarEstadoVenta(id, "en_gestion");
+}
+
+export async function finalizarVenta(id: string) {
+  await cambiarEstadoVenta(id, "finalizada");
+}
+
+export async function cancelarVenta(id: string) {
+  await cambiarEstadoVenta(id, "cancelada");
 }

@@ -25,19 +25,35 @@ export default function SuculentasManager() {
   const [preview, setPreview] = useState<string | null>(null);
 
   const cargar = async () => {
-    setCargando(true);
     try {
       const data = await obtenerSuculentas();
       setProductos(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error al cargar las suculentas");
     } finally {
       setCargando(false);
     }
   };
 
   useEffect(() => {
-    cargar();
+    let activo = true;
+
+    obtenerSuculentas()
+      .then((data) => {
+        if (activo) setProductos(data);
+      })
+      .catch((err: unknown) => {
+        if (activo) {
+          setError(err instanceof Error ? err.message : "Error al cargar las suculentas");
+        }
+      })
+      .finally(() => {
+        if (activo) setCargando(false);
+      }); 
+
+    return () => {
+      activo = false;
+    };
   }, []);
 
   const handleArchivo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,8 +95,8 @@ export default function SuculentasManager() {
       setArchivo(null);
       setPreview(null);
       await cargar();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error al guardar la suculenta");
     } finally {
       setEnviando(false);
     }
@@ -108,8 +124,8 @@ export default function SuculentasManager() {
     try {
       await eliminarSuculenta(p.id, p.imagen_url || undefined);
       await cargar();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err));
     }
   };
 

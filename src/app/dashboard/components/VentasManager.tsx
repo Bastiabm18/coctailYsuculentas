@@ -274,7 +274,7 @@ const limpiarFiltros = () => {
 
                     <td className="px-5 py-4">
                       <span
-                        className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset ${badge.clase}`}
+                        className={`inline-flex items-center whitespace-nowrap gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset ${badge.clase}`}
                       >
                         <span className={`h-1.5 w-1.5 rounded-full ${badge.punto}`} />
                         {badge.texto}

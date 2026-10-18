@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   obtenerVentas,
   gestionarVenta,
@@ -43,6 +43,30 @@ export default function VentasManager() {
   const [ventas, setVentas] = useState<Venta[]>([]);
   const [cargando, setCargando] = useState(true);
   const [procesando, setProcesando] = useState<string | null>(null);
+  const [filtroEstado, setFiltroEstado] = useState<string>("todas");
+const [desde, setDesde] = useState("");
+const [hasta, setHasta] = useState("");
+
+const ventasFiltradas = useMemo(() => {
+  return ventas.filter((v) => {
+    if (filtroEstado !== "todas" && v.estado !== filtroEstado) return false;
+
+    // fecha local en formato YYYY-MM-DD
+    const dia = new Date(v.fecha_creacion).toLocaleDateString("en-CA");
+    if (desde && dia < desde) return false;
+    if (hasta && dia > hasta) return false;
+
+    return true;
+  });
+}, [ventas, filtroEstado, desde, hasta]);
+
+const hayFiltros = filtroEstado !== "todas" || desde !== "" || hasta !== "";
+
+const limpiarFiltros = () => {
+  setFiltroEstado("todas");
+  setDesde("");
+  setHasta("");
+};
 
   const cargar = useCallback(async () => {
     try {
@@ -90,16 +114,65 @@ export default function VentasManager() {
 
   return (
     <div className="p-4 md:p-8">
-      <div className="mb-6 flex items-end justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-            Ventas
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
-            {ventas.length} {ventas.length === 1 ? "venta registrada" : "ventas registradas"}
-          </p>
-        </div>
+<div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+  <div>
+    <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+      Ventas
+    </h1>
+    <p className="mt-1 text-sm text-slate-500">
+      {ventasFiltradas.length} de {ventas.length}{" "}
+      {ventas.length === 1 ? "venta" : "ventas"}
+    </p>
+  </div>
+
+    <div className="flex flex-wrap items-end gap-3">
+      <div className="flex flex-col gap-1">
+        <label className="text-xs font-medium text-slate-500">Estado</label>
+        <select
+          value={filtroEstado}
+          onChange={(e) => setFiltroEstado(e.target.value)}
+          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+        >
+          <option value="todas">Todas</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="en_gestion">En gestión</option>
+          <option value="finalizada">Finalizada</option>
+          <option value="cancelada">Cancelada</option>
+        </select>
       </div>
+
+      <div className="flex flex-col gap-1">
+        <label className="text-xs font-medium text-slate-500">Desde</label>
+        <input
+          type="date"
+          value={desde}
+          max={hasta || undefined}
+          onChange={(e) => setDesde(e.target.value)}
+          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+        />
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label className="text-xs font-medium text-slate-500">Hasta</label>
+        <input
+          type="date"
+          value={hasta}
+          min={desde || undefined}
+          onChange={(e) => setHasta(e.target.value)}
+          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+        />
+      </div>
+
+      {hayFiltros && (
+        <button
+          onClick={limpiarFiltros}
+          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 shadow-sm transition hover:bg-slate-50"
+        >
+          Limpiar
+        </button>
+      )}
+    </div>
+  </div>
 
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         <div className="overflow-x-auto">
@@ -115,15 +188,15 @@ export default function VentasManager() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {ventas.length === 0 && (
+              {ventasFiltradas.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-5 py-16 text-center text-slate-400">
-                    No hay ventas todavía.
+                    {hayFiltros ? "No hay ventas con esos filtros." : "No hay ventas todavía."}
                   </td>
                 </tr>
               )}
-
-              {ventas.map((v) => {
+              
+              {ventasFiltradas.map((v) => {
                 const ocupada = procesando === v.id;
                 const badge = BADGE[v.estado] ?? {
                   clase: "bg-slate-50 text-slate-700 ring-slate-600/20",
